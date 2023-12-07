@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>User List</title>
+    <style>
+        /* Styles pour le titre h2 */
+        h2 {
+            color: #333;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20px;
+        }
+a.add-user {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        a.add-user:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styles pour le tableau */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Styles pour les boutons */
+        button.edit, button.delete {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.edit {
+            background-color: orange; /* Changer la couleur en orange */
+            color: #fff;
+        }
+
+        button.edit:hover {
+            background-color: #ff7b00; /* Changer la couleur au survol */
+        }
+
+        button.delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:switch="${users}">
+        <h2 th:case="null">No users yet!</h2>
+        <div th:case="*">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}" th:class="${userStat.odd} ? 'odd' : 'even'">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td><button class="edit" onclick="window.location.href='@{/edit/{id}(id=${user.id})}'">Edit</button></td>
+                        <td><button class="delete" onclick="window.location.href='@{/delete/{id}(id=${user.id})}'">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            <a href="/signup" class="add-user">Add a new user</a>
+        </p>
+    </div>
+</body>
+
+</html>
